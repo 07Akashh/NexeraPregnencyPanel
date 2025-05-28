@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Header from "../components/Header";
 import ChatArea from "../components/ChatArea";
 import SidebarWrapper from "../components/sidebar/SidebarWrapper";
+import LoadingScreen from '../components/LoadingScreen'
 import {
   initializeChat,
   saveLanguage,
@@ -369,7 +370,7 @@ export default function ChatPage() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingScreen />}>
         <ChatContent />
       </Suspense>
     </ThemeProvider>
