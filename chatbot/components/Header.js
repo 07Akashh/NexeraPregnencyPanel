@@ -97,7 +97,7 @@ export default function Header({ onNewChat, onSidebarToggle, language, setLangua
             <>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Image
-                  src="/headerlogo.svg"
+                  src="/headerLogo.svg"
                   alt="AI Assistant Logo"
                   width={265}
                   height={45}
