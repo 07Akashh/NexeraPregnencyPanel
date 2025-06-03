@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://13.233.96.166:4000';
+const BASE_URL = 'https://msme.trystrangify.com';
 
 const apiClient = axios.create({
   baseURL: BASE_URL,
