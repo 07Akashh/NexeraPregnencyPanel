@@ -7,7 +7,7 @@ export default function AppLayout({ children }) {
   const pathname = usePathname()
   
   // Don't use MainLayout for login page
-  if (pathname === "/login") {
+  if (pathname === "/login" || pathname === '/') {
     return children
   }
 

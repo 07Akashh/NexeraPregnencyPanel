@@ -31,7 +31,6 @@ export default function LoginPage() {
     try {
       const res = await login(username, password)
       const data = res.response
-      console.log(data)
       if (data.access_token) {
         // Store user data and token in localStorage
         localStorage.setItem('token', data.access_token)
@@ -47,9 +46,9 @@ export default function LoginPage() {
           case 'doctor':
             router.replace('/bot/staff')
             break
-          case 'admin':
-            router.replace('/admin')
-            break
+          // case 'admin':
+          //   router.replace('/admin')
+          //   break
           default:
             setError('Invalid user type')
             return
@@ -59,7 +58,7 @@ export default function LoginPage() {
       }
     } catch (err) {
       console.log(err)
-      setError(err.message,'fwefw' || 'An error occurred during login')
+      setError(err.message,'Error' || 'An error occurred during login')
       // Clear localStorage on error
       localStorage.removeItem('token')
       localStorage.removeItem('user')
