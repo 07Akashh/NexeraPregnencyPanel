@@ -46,9 +46,9 @@ export default function LoginPage() {
           case 'doctor':
             router.replace('/bot/staff')
             break
-          // case 'admin':
-          //   router.replace('/admin')
-          //   break
+          case 'admin':
+            router.replace('/dashboard')
+            break
           default:
             setError('Invalid user type')
             return

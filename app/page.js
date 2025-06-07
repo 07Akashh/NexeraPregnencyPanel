@@ -31,7 +31,7 @@ export default function ChatPage() {
             await router.replace('/bot/staff')
             break
           case 'admin':
-            await router.replace('/admin')
+            await router.replace('/bot/admin')
             break
           default:
             await router.replace('/login')

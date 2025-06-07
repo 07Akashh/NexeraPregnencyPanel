@@ -3,9 +3,11 @@ import SettingsIcon from "@mui/icons-material/Settings"
 import PeopleIcon from "@mui/icons-material/People"
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import { getUserType } from "../../../lib/auth"
 import HomeIcon from "@mui/icons-material/Home"
 import MenuIcon from "@mui/icons-material/Menu"
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 const menuItems = {
   patient: [
@@ -63,47 +65,47 @@ const menuItems = {
   ],
   admin: [
     {
-      id: "chats",
-      label: "Chat",
-      icon: HomeIcon,
-      route: "/bot/staff",
+      id: "dashboard",
+      label: "Dashboard",
+      icon: DashboardIcon,
+      route: "/dashboard",
       isActive: true,
     },
     {
-      id: "patients",
-      label: "Patients",
-      icon: PeopleIcon,
-      route: "/patients",
+      id: "chats",
+      label: "Chat",
+      icon: AutoAwesomeOutlinedIcon,
+      route: "/bot/admin",
       isActive: false,
     },
-    {
-      id: "doctors",
-      label: "Doctors",
-      icon: PersonIcon,
-      route: "/doctors",
-      isActive: false,
-    },
-    {
-      id: "appointments",
-      label: "Appointments",
-      icon: CalendarMonthIcon,
-      route: "/appointments",
-      isActive: false,
-    },
-    {
-      id: "settings",
-      label: "Settings",
-      icon: SettingsIcon,
-      route: "/settings",
-      isActive: false,
-    },
-    {
-      id: "admin",
-      label: "Admin Panel",
-      icon: AdminPanelSettingsIcon,
-      route: "/admin",
-      isActive: false,
-    }
+    // {
+    //   id: "doctors",
+    //   label: "Doctors",
+    //   icon: PersonIcon,
+    //   route: "/doctors",
+    //   isActive: false,
+    // },
+    // {
+    //   id: "appointments",
+    //   label: "Appointments",
+    //   icon: CalendarMonthIcon,
+    //   route: "/appointments",
+    //   isActive: false,
+    // },
+    // {
+    //   id: "settings",
+    //   label: "Settings",
+    //   icon: SettingsIcon,
+    //   route: "/settings",
+    //   isActive: false,
+    // },
+    // {
+    //   id: "admin",
+    //   label: "Admin Panel",
+    //   icon: AdminPanelSettingsIcon,
+    //   route: "/admin",
+    //   isActive: false,
+    // }
   ]
 }
 

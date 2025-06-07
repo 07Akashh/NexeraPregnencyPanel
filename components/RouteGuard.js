@@ -45,7 +45,7 @@ console.log(pathname);
             redirectUrl = '/bot/staff'
             break
           case 'admin':
-            redirectUrl = '/admin'
+            redirectUrl = '/dashboard'
             break
           default:
             redirectUrl = '/login'
