@@ -58,7 +58,7 @@ export default function ChatInputBar({
         maxWidth: "900px",
         mx: "auto",
         px: { xs: 1.5, sm: 3 },
-        pb: 2,
+        pb:{ xs: 1, sm: 2 },
       }}
     >
       <Paper
@@ -240,18 +240,19 @@ export default function ChatInputBar({
         variant="caption"
         color="text.secondary"
         sx={{
-          mt: 1.5,
-          fontSize: "0.75rem",
+          mt: { xs: 0.5, sm: 1.5 },
+          fontSize: { xs: "0.65rem", sm: "0.75rem" },
           opacity: 0.7,
           display: "block",
           textAlign: "center",
           width: "100%",
+          lineHeight: { xs: 1.2, sm: 1.5 },
+          mb: { xs: 0, sm: 1 }
         }}
       >
         Nexera.health may display inaccurate info, so please double check the
         response. Your Privacy & Nexera.health
       </Typography>
-
     </Box>
   )
 }
