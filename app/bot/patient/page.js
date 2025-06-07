@@ -9,10 +9,8 @@ import {
   useMediaQuery
 } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import Header from "../components/Header";
-import ChatArea from "../components/ChatArea";
-import SidebarWrapper from "../components/sidebar/SidebarWrapper";
-import LoadingScreen from '../components/LoadingScreen'
+import ChatArea from "../../../components/ChatArea";
+import SidebarWrapper from "../../../components/sidebar/SidebarWrapper";
 import {
   initializeChat,
   saveLanguage,
@@ -20,7 +18,7 @@ import {
   getProfile,
   submitBusinessProfile,
   getOpenAIResponse
-} from "../lib/api";
+} from "../../../lib/api";
 import { v4 as uuid } from "uuid";
 
 // Theme configuration
@@ -70,19 +68,74 @@ const getInitialAnswers = () => {
   return [];
 };
 
-// Utility: Save full chat to localStorage
-const saveChatToLocalStorage = (chatId, messages, options = []) => {
+// Utility: Debounce function to limit how often a function can be called
+const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
+// Utility: Save full chat to localStorage with debouncing
+const saveChatToLocalStorage = debounce((chatId, messages, options = []) => {
   if (!isBrowser) return;
   
-  const key = `chat_${chatId}`;
-  const chatRecord = {
-    id: chatId,
-    messages,
-    options,
-    title: messages.find(m => m.role === "assistant")?.content?.slice(0, 30) || "New Chat",
-    date: new Date().toISOString().split('T')[0]
-  };
-  localStorage.setItem(key, JSON.stringify(chatRecord));
+  try {
+    const key = `chat_${chatId}`;
+    const existingChat = JSON.parse(localStorage.getItem(key) || '{}');
+    
+    const chatRecord = {
+      id: chatId,
+      messages,
+      options,
+      title: messages.find(m => m.role === "assistant")?.content?.slice(0, 30) || existingChat.title || "New Chat",
+      date: existingChat.date || new Date().toISOString().split('T')[0],
+      lastUpdated: new Date().toISOString()
+    };
+
+    // Only save if there are actual changes
+    if (JSON.stringify(existingChat) !== JSON.stringify(chatRecord)) {
+      localStorage.setItem(key, JSON.stringify(chatRecord));
+      return chatRecord;
+    }
+    return existingChat;
+  } catch (error) {
+    console.error('Error saving chat:', error);
+    return null;
+  }
+}, 1000); // Debounce for 1 second
+
+// Utility: Load chat list efficiently
+const loadChatList = () => {
+  if (!isBrowser) return [];
+  
+  try {
+    const chatKeys = Object.keys(localStorage).filter(key => key.startsWith("chat_"));
+    return chatKeys
+      .map(key => {
+        try {
+          const chat = JSON.parse(localStorage.getItem(key));
+          return chat ? {
+            id: chat.id,
+            title: chat.title,
+            date: chat.date,
+            lastUpdated: chat.lastUpdated
+          } : null;
+        } catch {
+          return null;
+        }
+      })
+      .filter(Boolean)
+      .sort((a, b) => new Date(b.lastUpdated) - new Date(a.lastUpdated));
+  } catch (error) {
+    console.error('Error loading chat list:', error);
+    return [];
+  }
 };
 
 function ChatContent() {
@@ -91,7 +144,6 @@ function ChatContent() {
   const [hasMounted, setHasMounted] = useState(false);
   const [language, setLanguage] = useState(getInitialLanguage);
   const [sidebarExpanded, setSidebarExpanded] = useState(true);
-  const [activeSection, setActiveSection] = useState("chats");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [chatId, setChatId] = useState(() => searchParams.get('chat'));
   const [messages, setMessages] = useState([]);
@@ -118,20 +170,12 @@ function ChatContent() {
   useEffect(() => scrollToBottom(), [messages]);
 
   useEffect(() => {
-    const loadChatList = () => {
-      const chatKeys = Object.keys(localStorage).filter(key => key.startsWith("chat_"));
-      const loadedChats = chatKeys.map(key => {
-        try {
-          const chat = JSON.parse(localStorage.getItem(key));
-          return chat ? { id: chat.id, title: chat.title, date: chat.date } : null;
-        } catch {
-          return null;
-        }
-      }).filter(Boolean);
-      setChatList(loadedChats);
-    };
-    loadChatList();
-  }, []);
+    const updateChatList = debounce(() => {
+      setChatList(loadChatList());
+    }, 1000);
+
+    updateChatList();
+  }, [messages]); // Only update when messages change
 
   useEffect(() => {
     const initOrRestoreChat = async () => {
@@ -139,7 +183,6 @@ function ChatContent() {
       if (chatIdFromUrl) {
         setChatId(chatIdFromUrl);
         try { 
-          await saveLanguage(chatIdFromUrl, language);
           const chatData = JSON.parse(localStorage.getItem(`chat_${chatIdFromUrl}`));
           if (chatData) {
             setMessages(chatData.messages);
@@ -159,9 +202,7 @@ function ChatContent() {
             const initialOptions = res.response.options || [];
             setMessages(initialMessages);
             setOptions(initialOptions);
-            await saveLanguage(newId, language);
             router.push(`?chat=${newId}`);
-            saveChatToLocalStorage(newId, initialMessages, initialOptions);
           }
         } catch (err) {
           console.error("Chat initialization failed", err);
@@ -197,11 +238,19 @@ function ChatContent() {
 
     try {
       const res = await getOpenAIResponse(chatId, language, currentInput);
-      const assistantMsg = { id: uuid(), role: "assistant", content: res.output.response };
+      const assistantMsg = { id: uuid(), role: "assistant", content: res.response };
       const updated = [...messages, userMsg, assistantMsg];
       setMessages(updated);
-      setOptions(res.output.options || []);
-      saveChatToLocalStorage(chatId, updated, res.output.options || []);
+      setOptions(res.options || []);
+      
+      // Save chat with debouncing
+      const chatRecord = saveChatToLocalStorage(chatId, updated, res.options || []);
+      if (chatRecord) {
+        setChatList(prev => {
+          const filtered = prev.filter(chat => chat.id !== chatId);
+          return [chatRecord, ...filtered];
+        });
+      }
     } catch (err) {
       console.error(err);
       setMessages(prev => [...prev, { id: uuid(), role: "assistant", content: "An error occurred." }]);
@@ -267,11 +316,7 @@ function ChatContent() {
   };
 
   const handleSectionClick = (section) => {
-    if (activeSection === section) setSidebarExpanded(!sidebarExpanded);
-    else {
-      setActiveSection(section);
-      setSidebarExpanded(true);
-    }
+    if (section === "chats") setSidebarExpanded(!sidebarExpanded);
   };
 
   const handleNewChat = async () => {
@@ -288,16 +333,11 @@ function ChatContent() {
         setError(null);
         router.push(`?chat=${newId}`);
         
-        // Update chat list
-        const chatRecord = {
-          id: newId,
-          messages: initialMessages,
-          options: initialOptions,
-          title: res.response.message.slice(0, 30) || "New Chat",
-          date: new Date().toISOString().split('T')[0]
-        };
-        localStorage.setItem(`chat_${newId}`, JSON.stringify(chatRecord));
-        setChatList(prev => [chatRecord, ...prev]);
+        // Save new chat with debouncing
+        const chatRecord = saveChatToLocalStorage(newId, initialMessages, initialOptions);
+        if (chatRecord) {
+          setChatList(prev => [chatRecord, ...prev]);
+        }
       }
     } catch (err) {
       console.error("Failed to create new chat", err);
@@ -319,11 +359,12 @@ function ChatContent() {
     }
   };
 
+
   return (
-    <Box sx={{ display: "flex", height: "100dvh", width: "100dvw", overflow: "hidden" }}>
+    <Box sx={{ display: "flex", height: "100dvh", overflow: "hidden" }}>
       <SidebarWrapper
         expanded={sidebarExpanded}
-        activeSection={activeSection}
+        activeSection={"chats"}
         onSectionClick={handleSectionClick}
         chatList={chatList}
         mobileOpen={mobileOpen}
@@ -341,13 +382,6 @@ function ChatContent() {
           width: { xs: 0 }
         }}
       >
-        <Header
-          onNewChat={handleNewChat}
-          onClearChat={handleClearChat}
-          onSidebarToggle={handleSidebarToggle}
-          language={language}
-          setLanguage={setLanguage}
-        />
         <ChatArea
           messages={messages}
           input={input}
@@ -366,13 +400,4 @@ function ChatContent() {
   );
 }
 
-export default function ChatPage() {
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Suspense fallback={<LoadingScreen />}>
-        <ChatContent />
-      </Suspense>
-    </ThemeProvider>
-  );
-} 
+export default ChatContent;

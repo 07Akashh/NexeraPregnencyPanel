@@ -146,14 +146,14 @@ export default function Header({ onNewChat, onSidebarToggle, language, setLangua
                 },
               }}
             >
-              {languages.find((lang) => lang.code === language)?.name || "Language"}
+              {languages.find((lang) => lang.name === language)?.code || "Language"}
             </Button>
 
           </Tooltip>
           <Menu anchorEl={languageAnchorEl} open={Boolean(languageAnchorEl)} onClose={handleLanguageMenuClose}>
             {languages.map((lang,index) => (
-              <MenuItem key={index} onClick={() => handleLanguageSelect(lang.code)}>
-                {lang.name}
+              <MenuItem key={index} onClick={() => handleLanguageSelect(lang.name)}>
+                {lang.code}
               </MenuItem>
             ))}
           </Menu>
@@ -197,7 +197,7 @@ export default function Header({ onNewChat, onSidebarToggle, language, setLangua
           )} */}
 
           {/* New Chat */}
-          <Button
+          {/* <Button
             variant="contained"
             color="primary"
             endIcon={<AutoAwesomeIcon />}
@@ -205,7 +205,7 @@ export default function Header({ onNewChat, onSidebarToggle, language, setLangua
             sx={{ borderRadius: 45, minWidth: 120, textTransform: "none", fontFamily: 'Satoshi' }}
           >
             New Chat
-          </Button>
+          </Button> */}
         </Box>
       </Toolbar>
     </AppBar>

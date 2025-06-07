@@ -45,7 +45,7 @@ export default function ChatInputBar({
   const handleLanguageSelect = async (lang) => {
     localStorage.setItem("language", lang.code)
     setLanguage(lang.code)
-    await saveLanguage(chatId, lang.code)
+    // await saveLanguage(chatId, lang.code)
     handleClose()
   }
 
@@ -69,7 +69,7 @@ export default function ChatInputBar({
         onSubmit={onSubmit}
         elevation={3}
         sx={{
-          borderRadius: 6,
+          borderRadius: 3,
           p: 2,
           bgcolor: "background.paper",
         }}
@@ -165,8 +165,8 @@ export default function ChatInputBar({
           </Button>
           <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
             {languages.map((lang, idx) => (
-              <MenuItem key={idx} selected={lang.code === language} onClick={() => handleLanguageSelect(lang)}>
-                {lang.name}
+              <MenuItem key={idx} selected={lang.name === language} onClick={() => handleLanguageSelect(lang)}>
+                {lang.code}
               </MenuItem>
             ))}
           </Menu>
