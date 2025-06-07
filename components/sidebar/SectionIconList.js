@@ -1,8 +1,5 @@
 import { Box, Button } from "@mui/material"
 import ChatIcon from "@mui/icons-material/Chat"
-import PersonIcon from "@mui/icons-material/Person"
-import SettingsIcon from "@mui/icons-material/Settings"
-import FolderIcon from "@mui/icons-material/Folder"
 
 const sections = [
   { id: "chats", icon: ChatIcon, label: "Chats" },

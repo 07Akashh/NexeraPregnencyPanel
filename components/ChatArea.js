@@ -8,8 +8,6 @@ import {
   CircularProgress,
   Button,
 } from "@mui/material"
-import SendIcon from "@mui/icons-material/Send"
-import SmartToyIcon from "@mui/icons-material/SmartToy"
 import PersonIcon from "@mui/icons-material/Person"
 import MarkdownRenderer from "./MarkdownRenderer"
 import Image from "next/image"

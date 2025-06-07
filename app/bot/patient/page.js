@@ -1,11 +1,9 @@
 "use client"
 
-import { useRef, useEffect, useState, Suspense } from "react";
+import { useRef, useEffect, useState } from "react";
 import {
   Box,
-  ThemeProvider,
   createTheme,
-  CssBaseline,
   useMediaQuery
 } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,7 +11,6 @@ import ChatArea from "../../../components/ChatArea";
 import SidebarWrapper from "../../../components/sidebar/SidebarWrapper";
 import {
   initializeChat,
-  saveLanguage,
   selectOption,
   getProfile,
   submitBusinessProfile,

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import {
   AppBar,
   Toolbar,
-  Typography,
   Button,
   IconButton,
   Menu,
@@ -15,10 +14,8 @@ import {
   useTheme,
 } from "@mui/material"
 
-import IosShareIcon from '@mui/icons-material/IosShare';
 import MenuIcon from "./icons/MenuIcon"
 import TranslateIcon from '@mui/icons-material/Translate';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import Image from "next/image"

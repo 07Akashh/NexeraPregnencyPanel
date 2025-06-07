@@ -1,4 +1,4 @@
-import { Drawer, Box, IconButton, Typography, Divider } from "@mui/material"
+import { Drawer, Box, Divider } from "@mui/material"
 import SectionContent from "./SectionContent"
 import Image from "next/image"
 import SectionIconList from './SectionIconList'

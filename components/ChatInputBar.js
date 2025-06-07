@@ -9,13 +9,10 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material"
-import SendIcon from "@mui/icons-material/Send"
-import AttachFileIcon from "@mui/icons-material/AttachFile"
-import MicIcon from "@mui/icons-material/Mic"
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import NorthIcon from '@mui/icons-material/North';
 import AutoAwesomeTwoToneIcon from "@mui/icons-material/AutoAwesomeTwoTone"
-import { getLanguages, saveLanguage } from "../lib/api"
+import { getLanguages } from "../lib/api"
 import { useSearchParams } from "next/navigation"
 
 export default function ChatInputBar({

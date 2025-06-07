@@ -1,8 +1,5 @@
-import { Box, IconButton, Tooltip, Typography, Divider, Button, } from "@mui/material"
-import SectionIcons from "./SectionIcons"
+import { Box, Typography, Button, } from "@mui/material"
 import SectionContent from "./SectionContent"
-import Image from "next/image"
-import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 
