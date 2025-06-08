@@ -2,7 +2,7 @@
 import GroupsIcon from '@mui/icons-material/Groups';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import GradeRoundedIcon from '@mui/icons-material/GradeRounded';
-
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 import { Box, Grid, Typography, Skeleton, colors } from '@mui/material';
 import StatsCard from './StatsCard';
@@ -39,7 +39,7 @@ export default function ProfilePage() {
     {
       value: stats?.high_risk_pregnancies ?? '-',
       title: 'High-Risk Pregnancies',
-      Icon: SportsEsportsIcon,
+      Icon: InfoRoundedIcon,
       color:'#FFC327'
     },
     {
@@ -67,12 +67,13 @@ export default function ProfilePage() {
       value: stats?.anemia_count ?? '-',
       title: 'Patient with Anemia',
       Icon: SportsEsportsIcon,
-      color:'#FFC327'
+      Icon: GroupsIcon,
+      color:'#FE8235D9'
     },
     {
       value: stats?.low_weight_count ?? '-',
       title: 'Low Weight Gain',
-      Icon: GradeRoundedIcon,
+      Icon: GroupsIcon,
       color:'#FE8235D9'
     },
     {

@@ -1,7 +1,6 @@
 import { Paper, Typography, Box, alpha } from "@mui/material";
 
 const StatsCard = ({ Icon, value, title, color = "#EEE" }) => {
-    console.log(Icon)
     return (
         <Paper sx={{ padding: "20px 25px", display: "flex", alignItems: "center", borderRadius: '10px' }}>
             <Box
@@ -21,8 +20,10 @@ const StatsCard = ({ Icon, value, title, color = "#EEE" }) => {
 
             {/* Value & Title */}
             <Box>
-                <Typography
+                <Typography 
+                className="nunito-val"
                     sx={{
+                        fontFamily: 'var(--font-nunito)',
                         color: "#1e1e1e",
                         fontFamily: "Nunito",
                         fontSize: "22px",
@@ -35,6 +36,7 @@ const StatsCard = ({ Icon, value, title, color = "#EEE" }) => {
                 </Typography>
                 <Typography
                     sx={{
+                        fontFamily: 'var(--font-nunito)',
                         color: "#030229",
                         fontFamily: "Nunito",
                         fontSize: "14px",
