@@ -78,13 +78,13 @@ const menuItems = {
       route: "/bot/admin",
       isActive: false,
     },
-    // {
-    //   id: "doctors",
-    //   label: "Doctors",
-    //   icon: PersonIcon,
-    //   route: "/doctors",
-    //   isActive: false,
-    // },
+    {
+      id: "Users",
+      label: "Users",
+      icon: PersonIcon,
+      route: "/users",
+      isActive: false,
+    },
     // {
     //   id: "appointments",
     //   label: "Appointments",
