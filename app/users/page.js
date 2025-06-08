@@ -95,8 +95,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   const columns = [
     { label: "S.NO", id: "sno" },
     { label: "User ID", id: "userId" },
-    { label: "Name", id: "name" },
-    { label: "Email address", id: "email" },
+    { label: "User Name", id: "name" },
+    // { label: "Email address", id: "email" },
     { label: "Role type", id: "roleType" },
     // Conditionally include the "Status" column
     // ...(teamAccess === 2 || teamAccess === 3 ? [{ label: "Status", id: "status" }] : []),
@@ -385,9 +385,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                       >
                         <StyledTableCell>{index + 1}</StyledTableCell>
                         <StyledTableCell>{row.user_id}</StyledTableCell>
-                        <StyledTableCell>
-                          {`${row.username} ${row.lastName}`}
-                        </StyledTableCell>
+                        {/* <StyledTableCell>
+                          {`${row.username}`}
+                        </StyledTableCell> */}
                         <StyledTableCell>{row.username}</StyledTableCell>
                         <StyledTableCell>
                           {row.user_type}
