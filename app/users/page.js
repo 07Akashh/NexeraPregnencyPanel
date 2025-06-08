@@ -5,8 +5,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { getUserList } from "../../lib/api";
-// import DeleteIcon from "../../assets/images/deleteIcon.svg";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
 
 import {
   Dialog,
@@ -49,8 +47,6 @@ const Subadmin = () => {
   const [total, setTotal] = useState(0);
 
   const [searchQuery, setSearchQuery] = useState();
-  // Debounce the searchQuery
-//   const debouncedSearchQuery = useDebounce(searchQuery);
 
   const SkeletonRow = () => (
     <TableRow>
@@ -64,7 +60,7 @@ const Subadmin = () => {
 
   
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  paddingBlock:"15px",
+  paddingBlock:"8px",
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: "#FCFDFD",
     color: "#202224",
@@ -202,7 +198,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         height: "85px",
       }}
     >
-      <Stack direction="column" spacing={3} sx={{ width: "100%" }}>
+      <Stack direction="column" spacing={3} sx={{ width: "100%"}}>
         <Box
           sx={{
             width: "100%",
@@ -210,8 +206,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            // height: "100%",
-            // border:'1px solid black'
           }}
         >
             {/* <Box /> */}
@@ -256,7 +250,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                 }}
                 variant="contained"
                 onClick={() => {
-                  router.push("/home/createSubadmin");
+                  router.push("/users/create");
                 }}
               >
                 <Typography
@@ -288,7 +282,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
             sx={{
               justifyContent: "space-between",
               alignItems: "center",
-              // mt: "20px",
               backgroundColor: "#ffffff",
               paddingLeft: "20px",
               paddingRight: "20px",
@@ -336,100 +329,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                   Members
                 </Typography>
               </Button>
-              {/* <Button
-                variant="outlined"
-                sx={{
-                  width: "200px",
-                  height: "40px",
-                  textTransform: "none",
-                  border: "0.6px solid #777676",
-                  borderRadius: "8px",
-                  "&:hover": {
-                    backgroundColor: "rgba(72, 255, 99, 0.1)",
-                    border: "1px solid var(--normal-secondary,rgb(102, 225, 91))",
-                    "& .MuiTypography-root": {
-                      color: activeButton === "contentManager" ? "#1e1e1e" : "#10B771",
-                    },
-                  },
-                  backgroundColor:
-                    activeButton === "contentManager"
-                      ? "rgba(84, 255, 72, 0.1)"
-                      : "#FFFFFF",
-                  border:
-                    activeButton === "contentManager"
-                      ? "1px solid var(--normal-secondary,rgb(91, 225, 104))"
-                      : "0.6px solid #777676",
-                  ml: "20px",
-                  mt: "10px",
-                  mb: "10px",
-                }}
-                onClick={() => handleRoleButtonClick(3)}
-              >
-                <Typography
-                  sx={{
-                    color:
-                      activeButton === "contentManager" ? "#1e1e1e" : "#777676",
-                    fontFamily: "poppins",
-                    fontSize: "16px",
-                    fontStyle: "normal",
-                    fontWeight: 400,
-                    lineHeight: "normal",
-                  }}
-                >
-                  Content Manager
-                </Typography>
-              </Button> */}
             </Box>
-            {/* <Button
-              variant="outlined"
-              sx={{
-                width: "100px",
-                height: "40px",
-                textTransform: "none",
-                border: "0.6px solid #777676",
-                borderRadius: "8px",
-                "&:hover": {
-                  backgroundColor: "rgba(72, 128, 255, 0.10)",
-                  border: "1px solid var(--normal-secondary, #5B7EE1)",
-                  "& .MuiTypography-root": {
-                    color: "#3A63DB",
-                  },
-                },
-                backgroundColor:
-                  activeButton === "contentManager"
-                    ? "rgba(72, 128, 255, 0.10)"
-                    : "#FFFFFF",
-                border:
-                  activeButton === "contentManager"
-                    ? "1px solid var(--normal-secondary, #5B7EE1)"
-                    : "0.6px solid #777676",
-                ml: "20px",
-                mt: "10px",
-                mb: "10px",
-              }}
-              onClick={() => {
-                handleExportClick();
-              }}
-            >
-              <img
-                src={download_cloud}
-                alt="Export Icon"
-                style={{ marginRight: "8px" }}
-              />
-              <Typography
-                sx={{
-                  color:
-                    activeButton === "contentManager" ? "#3A63DB" : "#777676",
-                  fontFamily: "poppins",
-                  fontSize: "16px",
-                  fontStyle: "normal",
-                  fontWeight: 400,
-                  lineHeight: "normal",
-                }}
-              >
-                Export
-              </Typography>
-            </Button> */}
           </Stack>
 
           <Divider />
@@ -441,8 +341,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
               borderRadius: "8px 8px 0px 0px",
             }}
           >
-            <TableContainer>
-              <Table>
+            <TableContainer sx={{ maxHeight: 400, overflowY: 'auto' }}>
+              <Table stickyHeader>
                 <TableHead >
                   <StyledTableRow>
                     {columns.map((column) => (
@@ -468,7 +368,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                     ))}
                   </StyledTableRow>
                 </TableHead>
-                <TableBody style={{ borderBottom: "none" }}>
+                <TableBody style={{ borderBottom: "none", overflow:'auto' }}>
                   {loading && (
                     <>
                       {Array.from({ length: 6 }).map((_, index) => (
@@ -492,122 +392,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                         <StyledTableCell>
                           {row.user_type}
                         </StyledTableCell>
-
-                          {/* <StyledTableCell
-                            sx={{
-                              display: "inline-grid",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              padding: "12px",
-                            }}
-                          >
-                            <Box>
-                              <Switch
-                                checked={row.status}
-                                onChange={(e) => handleSwitch(e, row.user_id)}
-                                sx={{
-                                  mt: "0px",
-                                  width: 56,
-                                  height: 25,
-                                  padding: 0,
-                                  // "& .MuiSwitch-switchBase": {
-                                  //   padding: 0,
-                                  //   marginLeft: "4px",
-                                  //   "&.Mui-checked": {
-                                  //     transform: "translateX(28px)",
-                                  //     color: "#fff",
-                                  //   },
-                                  //   "& .MuiSwitch-thumb": {
-                                  //     width: 24,
-                                  //     height: 25,
-                                  //     border: "0.6px solidrgb(89, 212, 150)",
-                                  //   },
-                                  //   "& + .MuiSwitch-track": {
-                                  //     backgroundColor: "#10B771",
-                                  //     borderRadius: 20,
-                                  //   },
-                                  // },
-                                  "& .MuiSwitch-switchBase": {
-                                    padding: 0,
-                                    marginLeft: "4px",
-                                    "& .MuiSwitch-thumb": {
-                                      width: 24,
-                                      height: 25,
-                                      border: "0.6px solid rgb(89, 212, 150)"
-                                    },
-                                    "&.Mui-checked": {
-                                      transform: "translateX(28px)",
-                                      color: "#fff",
-                                      "& + .MuiSwitch-track": {
-                                        backgroundColor: "#10B771",
-                                        opacity: 1,
-                                        borderRadius: 20,
-                                      },
-                                    },
-                                  },
-                                  "& .MuiSwitch-track": {
-                                    backgroundColor: "#10B771",
-                                    opacity: 0.5,
-                                    borderRadius: 20,
-                                    transition: "background-color 0.3s",
-                                  },
-                                  ".css-1mw4zdz-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked+.MuiSwitch-track":
-                                  {
-                                    backgroundColor: "#10B771",
-                                    opacity: 1,
-                                  },
-                                  ".css-z4xcbx-MuiSwitch-root .MuiSwitch-switchBase+.MuiSwitch-track":
-                                  {
-                                    backgroundColor: "#fff",
-                                  },
-                                  ".css-1mw4zdz-MuiButtonBase-root-MuiSwitch-switchBase.Mui-checked":
-                                  {
-                                    backgroundColor: "#fff",
-                                  },
-                                  ".css-1mw4zdz-MuiButtonBase-root-MuiSwitch-switchBase":
-                                  {
-                                    color: "#fffff",
-                                  },
-                                }}
-                              />
-                            </Box>
-                          </StyledTableCell> */}
-
-                          {/* <StyledTableCell>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                borderRadius: "8px",
-                                border: "1px solid #ccc",
-
-                                height: "35px",
-                                width: "max-content",
-                              }}
-                            >
-                              <IconButton
-                                onClick={() => handleDeleteClick(row.user_id)}
-                              >
-                                <img
-                                  src={DeleteIcon}
-                                  alt="delete icon"
-                                  size="small"
-                                />
-                              </IconButton>
-                            </Box>
-                          </StyledTableCell> */}
-
-                          {/* <StyledTableCell>
-                            <Box
-                              onClick={() => {
-                                // router.push("/home/editSubadmin", {
-                                //   state: { id: row._id },
-                                // });
-                              }}
-                            >
-                              <ArrowForwardIosSharpIcon fontSize="small" />
-                            </Box>
-                          </StyledTableCell> */}
                       </StyledTableRow>
                     ))}
                 </TableBody>
