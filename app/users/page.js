@@ -333,7 +333,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
                     lineHeight: "normal",
                   }}
                 >
-                  Users List
+                  Members
                 </Typography>
               </Button>
               {/* <Button
